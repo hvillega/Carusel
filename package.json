@@ -1,7 +1,7 @@
 {
-  "name": "carrusel",
+  "name": "git-carousel",
   "version": "1.0.0",
-  "description": "5.7-11",
+  "description": "",
   "main": "index.html",
   "scripts": {
     "start": "parcel index.html --open",
