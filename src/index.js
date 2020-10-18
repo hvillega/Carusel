@@ -7,7 +7,11 @@ const dots = Array.from(carousel.querySelectorAll(".carousel__dot"))
 const dotsContainer = carousel.querySelector(".carousel__dots")
 const slideWidth = slides[0].getBoundingClientRect().width
 
-console.log(slideWidth)
+// Slides width
+
+slides.forEach((slide, index) => {
+  slide.style.left = slideWidth * index + "px"
+})
 
 previousButton.addEventListener("click", (event) => {
   const currentSlide = contents.querySelector(".is-selected")
