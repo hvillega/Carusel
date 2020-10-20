@@ -1,5 +1,5 @@
 :root {
-  --color-default-state: grey;
+  --color-default-state: #dddddd;
   --color-hover-state: rgb(107, 107, 195);
   --color-selected-state: rgb(17, 26, 101);
 }
@@ -39,7 +39,7 @@ body {
   width: 100%;
   height: 100%;
   left: 0;
-  transition: left 0.25s ease-in-out;
+  transition: left 0.5s ease-in-out;
 }
 
 .carousel__slide {

@@ -1,101 +1,77 @@
 const carousel = document.querySelector(".carousel")
-const contents = carousel.querySelector(".carousel__contents")
-const previousButton = carousel.querySelector(".previous-button")
 const nextButton = carousel.querySelector(".next-button")
-const slides = Array.from(carousel.querySelectorAll(".carousel__slide"))
-const dots = Array.from(carousel.querySelectorAll(".carousel__dot"))
+const previousButton = carousel.querySelector(".previous-button")
+const contents = carousel.querySelector(".carousel__contents")
+const slide = Array.from(carousel.querySelectorAll(".carousel__slide"))
 const dotsContainer = carousel.querySelector(".carousel__dots")
-const slideWidth = slides[0].getBoundingClientRect().width
+const dots = Array.from(carousel.querySelectorAll(".carousel__dot"))
+const slideWidth = slide[0].getBoundingClientRect().width
 
-// Slides width
-
-slides.forEach((slide, index) => {
+slide.forEach((slide, index) => {
   slide.style.left = slideWidth * index + "px"
 })
 
-previousButton.addEventListener("click", (event) => {
-  const currentSlide = contents.querySelector(".is-selected")
-  const previousSlide = currentSlide.previousElementSibling
-  const destination = getComputedStyle(previousSlide).left
-
-  contents.style.left = "-" + destination
-  currentSlide.classList.remove("is-selected")
-  previousSlide.classList.add("is-selected")
-
-  // Shows next button
-  nextButton.removeAttribute("hidden")
-
-  // Hides previous button
-  if (!previousSlide.previousElementSibling) {
-    previousButton.setAttribute("hidden", true)
-  }
-
-  // Highlight Dot
-  const currentDot = dotsContainer.querySelector(".is-selected")
-  const previousDot = currentDot.previousElementSibling
-  currentDot.classList.remove("is-selected")
-  previousDot.classList.add("is-selected")
-})
-
 nextButton.addEventListener("click", (event) => {
-  const currentSlide = contents.querySelector(".is-selected")
-  const nextSlide = currentSlide.nextElementSibling
-  const destination = getComputedStyle(nextSlide).left
-  previousButton.removeAttribute("hidden")
-
+  let currentSlide = contents.querySelector(".is-selected")
+  let nextSlide = currentSlide.nextElementSibling
+  let destination = getComputedStyle(nextSlide).left
   contents.style.left = "-" + destination
   currentSlide.classList.remove("is-selected")
   nextSlide.classList.add("is-selected")
-
-  // Hides next button
+  previousButton.removeAttribute("hidden")
   if (!nextSlide.nextElementSibling) {
     nextButton.setAttribute("hidden", true)
   }
-
-  // Highlight Dot
-  const currentDot = dotsContainer.querySelector(".is-selected")
-  const nextDot = currentDot.nextElementSibling
+  let currentDot = dotsContainer.querySelector(".is-selected")
+  let nextDot = currentDot.nextElementSibling
   currentDot.classList.remove("is-selected")
   nextDot.classList.add("is-selected")
 })
 
-dots.forEach((dot) => {
-  // En cada dot agrega un event listener
+previousButton.addEventListener("click", (event) => {
+  let currentSlide = contents.querySelector(".is-selected")
+  let previousSlide = currentSlide.previousElementSibling
+  let destination = getComputedStyle(previousSlide).left
+  contents.style.left = "-" + destination
+  currentSlide.classList.remove("is-selected")
+  previousSlide.classList.add("is-selected")
+  nextButton.removeAttribute("hidden")
+  if (!previousSlide.previousElementSibling) {
+    previousButton.setAttribute("hidden", true)
+  }
+  let currentDot = dotsContainer.querySelector(".is-selected")
+  let previousDot = currentDot.previousElementSibling
+  currentDot.classList.remove("is-selected")
+  previousDot.classList.add("is-selected")
+})
+
+dots.forEach((dot, index) => {
   dot.addEventListener("click", (event) => {
-    //  Buscar el index y asignarlo a clickedDotIndex, y borra is-selected
-    let clickedDotIndex
-    for (let i = 0; i < dots.length; i++) {
-      // Remove selected class on dots
-      dots[i].classList.remove("is-selected")
-      // Assign current index to clickedDotIndex
-      if (dots[i] === dot) {
-        clickedDotIndex = i
-      }
+    let currentDot = dotsContainer.querySelector(".is-selected")
+    let currentSlide = contents.querySelector(".is-selected")
+    let lastDotIndex = dots.length - 1
+    let destination
+    if (dots[index] === dot) {
+      destination = getComputedStyle(slide[index]).left
+      contents.style.left = "-" + destination
+      currentDot.classList.remove("is-selected")
+      dot.classList.add("is-selected")
     }
-
-    // Remove is-selected from Slide
-    const currentSlide = contents.querySelector(".is-selected")
-    currentSlide.classList.remove("is-selected")
-
-    // Change slide
-    const slideToShow = slides[clickedDotIndex]
-    const destination = getComputedStyle(slideToShow).left
-    contents.style.left = "-" + destination
-
-    // Add dot selected color
-    dot.classList.add("is-selected")
-    slideToShow.classList.add("is-selected")
-
-    // Show hidden buttons
-    if (clickedDotIndex === 0) {
+    if (dots[0] === dot) {
       previousButton.setAttribute("hidden", true)
       nextButton.removeAttribute("hidden")
-    } else if (clickedDotIndex === dots.length - 1) {
-      previousButton.removeAttribute("hidden")
+    } else if (dots[index] === dots[lastDotIndex]) {
       nextButton.setAttribute("hidden", true)
+      previousButton.removeAttribute("hidden")
     } else {
       previousButton.removeAttribute("hidden")
       nextButton.removeAttribute("hidden")
     }
+    currentSlide.classList.remove("is-selected")
+    slide[index].classList.add("is-selected")
   })
+})
+
+window.addEventListener("resize", () => {
+  location.reload()
 })
